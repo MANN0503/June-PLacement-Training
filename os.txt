@@ -1,0 +1,209 @@
+CPU SCHEDULING ALGORITHMS
+
+1) First-Come, First- Served(FCFS): The process that comes first is completed first. and only after it's completion, we move to the next process. But because of this there are many small processes which cannot be executed if a big process is right now in execution.
+
+Burst Time: CPU time needed by a process for execution.
+
+2) Shortest Job Next(SJN) or Shortest Job First(SJF): A process with shortest burst time should be executed first. But there is a starvation problem that since we keep on executing short processes, big processes don't get time for execution.
+
+3) Round Robin: here we divide the total time in short time gaps and we allot all the processes in the CPU that time equally. Now if the process is executed completely in that time, good for it else the execution of next process we start and the previous process will have to wait.
+ Here all the processes get some time for execution but high priority processes don't get their vip treatment.
+
+4) Priority Scheduling: here processes are executed based on their priority order. But here the processes with least priority will be executed at the last.
+
+5) Multilevel Queue Scheduling: We make a algo which has the characteristics of both round robin and priority scheduling. here we make queues based on priorities.
+So, suppose we have a queue for high priority proess then the algo of round robin will work in that queue. Same for other priority level queues. Best in working but hard implementation.
+
+
+
+CRITICAL SECTION PROBLEM
+
+Many processes use the same resources so there is a change of inconsistency as the processes can enter each other.
+Suppose there are two processes P1 and P2 and both of there share a resource file. now there is a section in the file where both the processes will reach at the same time(that part is known as critical section) so now we have to select only one of the two process to execute that part of the file. Say we choose P1. Now we have to put a lock there so that P2 cannot enter and start executing that process.
+
+
+PROCESS SYNCHRONIZATION
+
+These are the techniques use to Coordinate/manage the execution of processes and threads nicely. Prevents conditions like data inconsistency and deadlocks, etc. There is proper communication to avoid any conflicts.
+
+key requirements for synchronization.
+1) Mutual exclusion: Only one process can access the crtical section once and other porcesses will be mutually excluded.
+
+2) Progress: progress should occur all the time. Atleast one process should get into the crtical section. Like deadlock should not happen that none of the processes is in the critical section.
+
+3) Bounded waiting:  A process waiting outside the crtical section should know the time for which it should wait. Like the upper bound of the waiting time should be known to the process (no infinite waiting).
+
+
+PROCESS SYNCHRONIZATION MECHANISM
+
+1) Locks/Mutexes: When a process enters critical section, there is a lock which prevents other processes to enter the critical section. So when the process in the crtitcal section completes it's execution, it gets out and also removes the lock. Now the waiting process enters the crtical section and again a lock is set there for exculsiveness.
+
+2) *Semaphores: It is also a type of lock. there are two types: Binary semaphore(two processes are allowed there that is either locked or unlocked) second is counting semaphore(a fixed amout of processes can come in the critical section).
+
+3) Read-write Lock: many processes can come for reading purpose but for writing purpose only one process is allowed(here exclusivity comes in between).
+
+DEADLOCK
+ It occurs when a process needs one resource but the resource is held by another process and the second process is not being executed because the resource needed by the second process is held by teh third process. 
+deadlock occyes only when the below four conditions meet / occur at the same time.
+
+1) Mutual exclusion: a resouce cannot be shared by two processes at the same time.
+2) Hold and wait: One process is holding a resource and the other process is waiting for that resource.
+3) No preemption: Till is process is completed, the resource will not be released.
+4) Circular Wait: there is circular waiting pattern formed in the wait time.
+
+DEADLOCK HANDLING TECHNIQUES(used in RTOS)
+1) Prevention: Since there are four conditions for deadlock then we will use a system that will prevent one or more than one condition from fulfulling.
+2) Avoidance: It works almost same as prevention but it uses some more complicated algos like banker's algo or dynamic allocation strategies or resource allocation graphs, etc.
+3) Detection: It keeps a check on the processes and resources periodically with the help of graphs, checking for the cycle formation.
+4) Recovery: Now since the circle is formed, we have to terminate one process to break the circle and revive the system from deadlock.
+In the above four the system has to work extra to check whether there is deadlock or not.
+5) Ignorance: It works on the probability of occurence. It keeps the probabilty as 1 in 100 and if deadlock occurs then we will crash the system or crash a process and the user can restart the system or perform the process later on.
+
+MEMORY(RAM) MANAGEMENT
+
+OS manages memory. There are two types of memory division 
+
+1) Fixed partitioning: We are dividing memory in fixed parts for processes but problem arises when a process is of 2 byte and you have alloted it 4 bytes  now we have 2 extra bytes there which are getting wasted. Internal Fragmentation occurs where we can see that we have a part of memory left with us but we cannot use it because it is alloted to a process.  
+
+2) Dynamic partitioning: As a process arrives, we give the process memory space according to their need like if they need 4 byte they get 4 byte and if they need 2 byte, they get 2 byte. but there extrenal fragmentation occurs where when a process is finished, there is an empty space left there which cannot be used.
+
+MEMORY MANAGEMENT TECHNIQUES
+MEMORY ALLOCATION ALGOS
+
+1) First-fit: When we get a memory space which is large enough for our process, we allocate the memory to the process. High fragmentation chances. 
+2) Best-fit: Iterate through all the empty spaces and choose the one whihc is equal to or just bigger than the needed space. A bit in-effiecient
+3) Worst-fit: Start putting the processes in the largest empty space.
+
+
+PAGING
+
+Main memory is divided into small pages 1KB. so now we don't keep the process in a contiguous fashion(like the whole process 1 goes in one space, no here the processes are divided.) so now we are dealing with the process by dividing it like we will keep half process some where half somewhere else. There is a memory managing unit(MMU) which maps and keeps check on all this management. there is a database used named page table.
+
+Page Table: there are two columns one is logical address which is needed by OS and the other one is physical address. logical address is kept in physical address. using this table MMU provides the physical address to OS.
+
+
+VIRTUAL MEMORY
+
+Here the concept is that the computer can use more memory than it actaually has. 90% of the time a processes uses only 10% of the memory. there is a combination of physical memory(RAM) and secondary memory(like harddisk). the combination occurs by swapping like what we need we put in main memory and as soon as the need is over, we remove it.
+Demand paging: here we load only the process which is required at the present time and as soon as the demand is accomplished, we remove the process from the memory to provide space for other processes. 
+With more RAM we will get more virtual memory and thus multiprogramming will be increased, increasing CPU utilization.
+
+Page fault: it occurs when your program needs a piece of code which is not there in your main memory. page swapping occurs but it is a very slow process. so for least page faults we use the following algos
+
+PAGE REPLACEMENT ALGOS
+
+1) First In First Out: we have limited number of pages and we have to swap in between these only. it is queue. 
+Bélády's anomaly is the phenomenon in which increasing the number of page frames results in an increase in the number of page faults for certain memory access patterns. This phenomenon is commonly experienced when using the first-in first-out (FIFO) page replacement algorithm.
+
+2) Optimal Page Replacement: Best. It is not feasible and cannot be implemented. It works on the principle that the page which will not be used in recent future should be replaced and the page which will be used in recent future should be left here only. it is kind of like as if you are predicting future.
+
+3) Least Recently Used: 
+
+The page that was used least recently should be removed first. the page that was used in very past should be removed first and the page which was used recently should not be removed.
+
+
+
+THRASHING
+
+The system is performing less computation and more page replacement. it occurs when degree of multiprogramming becomes extremely high. 
+to prevent this, keep multiprogramming degree optimal and increase RAM.
+
+in paging we have fixed size of pages now if we have to run a code of recursion then the main memory will first allot let say just 4 pages to the code but as the code executes, we need 4 more pages so there occurs demand paging and the user suffers page fault. 
+
+SEGMENTATION
+earlier we used to divide the pages into a fixed size and allot to the function but in segmentation, we divide the code into small segments and then pages are alloted to those segments.
+
+
+DISK MANAGEMENT
+
+SSD is faster than HDD.
+the memory management here depends on electron. if electron density is high then it is considered as 1 and if electrion density is low, it is considered as 0.
+Seek Time: it is time taken to locate where the read/write request will be satisfied on the disk. there are many scheduling algos that are used for this task 
+
+
+DISK SCHEDULING ALGOS
+
+https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=&cad=rja&uact=8&ved=2ahUKEwiv4qaQ0YGCAxVGR2wGHXCIA78QFnoECA8QAQ&url=https%3A%2F%2Fwww.geeksforgeeks.org%2Fdisk-scheduling-algorithms%2F&usg=AOvVaw3U92D7PYpOmrBk5Ko9t6-s&opi=89978449
+
+
+It is important as it determines the order in which the disk I/O requests are processed and serviced by the disk controller. The aim here is to decrease seek time and increase disk performance. 
+
+1) First Come First Serve: rotate the disk according to the request. the request that comes first is where the disk will be rotated from the head.
+
+2) Shortest Seek Time First: the disk starts the rotation and then starts accessing the requests that come to it and as you reach the shortest seek time, you start rotating in the same direction. By this you disk will rotate one or two times max. response time decreases.
+
+3)SCAN: where we start form one direction say right then we go left  here the disk will go till the end and then after that it goes to the other direction. low variance in response time.
+
+4) CSCAN: here the disk first goes to right till end and after that it goes in the opposite direction till end but while it travels in the opposite direction, it doesn't give any responses. When it reaches the end of the opposite direction, it again goes in right direction and starts giving reponses.
+
+5)LOOK: it is similar to the SCAN but the differnce is that the disk rotates till the last requested only and after that the disk moves in the opposite direction and also gives responses while scanning back in the opposite direction.
+
+6) CLOOK: it is similar to CSCAN but here again the disk is rotated till the last request only and after than it moves in the opposite direction where doesn't give any responses.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -57,7 +57,6 @@ public class MiddleNode {
             int element = scanner.nextInt();
             linkedList.insert(element);
         }
-
         Node middleNode = linkedList.findMiddleNode();
         if (middleNode != null) {
             System.out.println("Middle node value: " + middleNode.data);
